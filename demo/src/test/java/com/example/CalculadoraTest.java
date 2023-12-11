@@ -10,6 +10,15 @@ import org.junit.jupiter.api.Test;
 
 class CalculadoraTest {
 
+	@Test
+	void testAdd() {
+		var calc = new Calculadora();
+		
+		var result = calc.add(1, 2);
+		
+		assertEquals(3, result);
+	}
+
 	@BeforeAll
 	static void setUpBeforeClass() throws Exception {
 	}
@@ -24,11 +33,6 @@ class CalculadoraTest {
 
 	@AfterEach
 	void tearDown() throws Exception {
-	}
-
-	@Test
-	void testAdd() {
-		fail("Not yet implemented");
 	}
 
 }
