@@ -1,6 +1,7 @@
 package com.example;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assumptions.assumeFalse;
 
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
@@ -48,8 +49,16 @@ class Calculadora_Test {
 				assertEquals(0.3, result);
 				// assertEquals(0.1, calc.add(1, -0.9));
 			}
+			@DisplayName("Ejemplo de test parcial")
+			@Test
+			void testAddPartial() {
+				var result = calc.add(0.1, 0.2);
+
+				assertEquals(0.3, result);
+				assumeFalse(true, "lo dejo a medias");
+			}
 			@ParameterizedTest(name = "{displayName} {index}: {0} + {1} = {2}")
-			@CsvSource({"1,2,3","0.1,0.2,0.3","1,-0.9,0.1","-0.9,1,0.1"})
+			@CsvSource({"1,2,3","0.1,0.2,0.3","1,-0.9,0.1","-0.9,1,0.1", "0,0,0"})
 			void test_Suma(double operando1, double operando2, double result ) {
 				assertEquals(result, calc.add(operando1, operando2));
 			}
