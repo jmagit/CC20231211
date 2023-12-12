@@ -6,6 +6,7 @@ import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.DisplayNameGenerator;
@@ -15,6 +16,7 @@ import org.junit.jupiter.api.Test;
 @DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
 class Calculadora_Test {
 	private Calculadora calc;
+
 	@BeforeEach
 	void setUp() throws Exception {
 		calc = new Calculadora();
@@ -41,11 +43,58 @@ class Calculadora_Test {
 				var result = calc.add(0.1, 0.2);
 
 				assertEquals(0.3, result);
+				// assertEquals(0.1, calc.add(1, -0.9));
 			}
 		}
+
 		@Nested
 		public class KO {
-		
+
+		}
+	}
+
+	@Nested
+	public class Divide {
+		@Nested
+		public class OK {
+			@Test
+			void test_Enteros() {
+				assertEquals(1, calc.divide(3, 2));
+			}
+
+			@Test
+			void test_Reales() {
+				assertEquals(0.5, calc.divide(1.0, 2));
+			}
+		}
+
+		@Nested
+		public class KO {
+			@Test
+			void test_Por_0_en_Enteros() {
+				assertThrows(ArithmeticException.class, () -> calc.divide(3, 0));
+			}
+
+			@Test
+			@Disabled
+			void test_Por_0_en_Reales() {
+				try {
+					calc.divide(1.0, 0);
+					fail("Sin excepcion");
+				} catch (IllegalArgumentException e) {
+				} catch (Exception e) {
+					fail("No es la excepcion esperada");
+				}
+			}
+
+			@Test
+			void test_Multiple() {
+				var result = calc.divide(1.0, 0) * 0;
+				assertAll("test_Multiple", 
+						() -> assertEquals(1, result),
+						() -> assertFalse(Double.isInfinite(result), "isInfinite"),
+						() -> assertFalse(Double.isNaN(result), "isNaN"));
+			}
 		}
 	}
 

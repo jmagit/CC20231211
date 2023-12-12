@@ -11,7 +11,7 @@ public class Calculadora {
 	}
 	
 	public double add(double a, double b) {
-		return a + b;
+		return toDouble(a + b);
 	}
 	
 	public double divide(int a, int b) {
@@ -19,8 +19,8 @@ public class Calculadora {
 	}
 	
 	public double divide(double a, double b) {
-		if(b == 0) 
-			throw new IllegalArgumentException("El divisor no puede ser 0");
+//		if(b == 0) 
+//			throw new IllegalArgumentException("El divisor no puede ser 0");
 		return a / b;
 	}
 }
