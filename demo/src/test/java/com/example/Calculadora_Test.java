@@ -11,7 +11,10 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.DisplayNameGenerator;
 import org.junit.jupiter.api.Nested;
+import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
 @DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
 class Calculadora_Test {
@@ -45,6 +48,12 @@ class Calculadora_Test {
 				assertEquals(0.3, result);
 				// assertEquals(0.1, calc.add(1, -0.9));
 			}
+			@ParameterizedTest(name = "{displayName} {index}: {0} + {1} = {2}")
+			@CsvSource({"1,2,3","0.1,0.2,0.3","1,-0.9,0.1","-0.9,1,0.1"})
+			void test_Suma(double operando1, double operando2, double result ) {
+				assertEquals(result, calc.add(operando1, operando2));
+			}
+
 		}
 
 		@Nested
@@ -57,7 +66,7 @@ class Calculadora_Test {
 	public class Divide {
 		@Nested
 		public class OK {
-			@Test
+			@RepeatedTest(value = 5, name = "{displayName} {currentRepetition}/{totalRepetitions}")
 			void test_Enteros() {
 				assertEquals(1, calc.divide(3, 2));
 			}
