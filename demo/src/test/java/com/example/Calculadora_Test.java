@@ -14,6 +14,11 @@ import org.junit.jupiter.api.Test;
 
 @DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
 class Calculadora_Test {
+	private Calculadora calc;
+	@BeforeEach
+	void setUp() throws Exception {
+		calc = new Calculadora();
+	}
 
 	@Nested
 	public class Add {
@@ -21,7 +26,7 @@ class Calculadora_Test {
 		public class OK {
 			@Test
 			void test_Add_1_mas_2() {
-				var calc = new Calculadora();
+//				var calc = new Calculadora();
 
 				var result = calc.add(1, 2);
 
@@ -31,7 +36,7 @@ class Calculadora_Test {
 			@DisplayName("Control de IEEE")
 			@Test
 			void testAdd2() {
-				var calc = new Calculadora();
+//				var calc = new Calculadora();
 
 				var result = calc.add(0.1, 0.2);
 
@@ -50,10 +55,6 @@ class Calculadora_Test {
 
 	@AfterAll
 	static void tearDownAfterClass() throws Exception {
-	}
-
-	@BeforeEach
-	void setUp() throws Exception {
 	}
 
 	@AfterEach
