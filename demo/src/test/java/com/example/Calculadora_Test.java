@@ -13,9 +13,12 @@ import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.DisplayNameGenerator;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.RepeatedTest;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
+
+import com.example.utils.Smoke;
 
 @DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
 class Calculadora_Test {
@@ -31,6 +34,7 @@ class Calculadora_Test {
 		@Nested
 		public class OK {
 			@Test
+			@Tag("smoke")
 			void test_Add_1_mas_2() {
 //				var calc = new Calculadora();
 
@@ -81,6 +85,7 @@ class Calculadora_Test {
 			}
 
 			@Test
+			@Smoke
 			void test_Reales() {
 				assertEquals(0.5, calc.divide(1.0, 2));
 			}
