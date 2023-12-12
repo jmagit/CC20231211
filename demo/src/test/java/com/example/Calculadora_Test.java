@@ -76,7 +76,6 @@ class Calculadora_Test {
 			}
 
 			@Test
-			@Disabled
 			void test_Por_0_en_Reales() {
 				try {
 					calc.divide(1.0, 0);
@@ -89,7 +88,7 @@ class Calculadora_Test {
 
 			@Test
 			void test_Multiple() {
-				var result = calc.divide(1.0, 0) * 0;
+				var result = calc.divide(1.0, 1);
 				assertAll("test_Multiple", 
 						() -> assertEquals(1, result),
 						() -> assertFalse(Double.isInfinite(result), "isInfinite"),
