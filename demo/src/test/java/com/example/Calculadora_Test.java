@@ -2,6 +2,8 @@ package com.example;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assumptions.assumeFalse;
+import static org.mockito.Mockito.spy;
+import static org.mockito.Mockito.when;
 
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
@@ -67,6 +69,15 @@ class Calculadora_Test {
 				assertEquals(result, calc.add(operando1, operando2));
 			}
 
+			@DisplayName("Falsa con spy")
+			@Test
+			void testMock() {
+				var calc = spy(Calculadora.class);
+				when(calc.add(2, 2)).thenReturn(5.0);
+				var result = calc.add(2, 2);
+
+				assertEquals(5, result);
+			}
 		}
 
 		@Nested
