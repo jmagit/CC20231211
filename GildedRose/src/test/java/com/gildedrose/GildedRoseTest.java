@@ -72,18 +72,109 @@ class GildedRoseTest {
     }
 */    
 	@ParameterizedTest(name = "Producto normal {index}: ({0},{1}) => ({2},{3}")
-	@CsvSource({"2,3,1,2", "-1,10,-2,8", "2,0,1,0", "-1,1,-2,0" })
-    void normal(int sellIn, int quality, int sellInOut, int qualityOut) {
-    	String producto = "Un producto";
+	@CsvSource({
+		"11, 10, 10, 9",
+		"7, 1, 6, 0",
+//		"5, -5, 4, 0",
+		"0, 3, -1, 1",
+		})
+	void normal(int sellIn, int quality, int sellInOut, int qualityOut) {
+    	String producto = "Normal Product";
         Item[] items = new Item[] { new Item(producto, sellIn, quality) };
         GildedRose app = new GildedRose(items);
         app.updateQuality();
         assertEquals(1, items.length);
-        assertAll("Producto Actual", 
+        assertAll(producto, 
         		() -> assertEquals(producto, app.items[0].name),
         		() -> assertEquals(sellInOut, app.items[0].sellIn),
         		() -> assertEquals(qualityOut, app.items[0].quality)
         		);
     }
-
+	
+	@ParameterizedTest(name = "Aged Brie {index}: ({0},{1}) => ({2},{3}")
+	@CsvSource({
+		"2, 0, 1, 1",
+		"-1, 48, -2, 50",
+		"2, 50, 1, 50",
+		"-2, 49, -3, 50",
+		"1, 1, 0, 2",
+		})
+	void productAgedBrieTest(int sellIn, int quality, int sellInResult, int qualityResult) {
+		String name = "Aged Brie";
+		Item product = new Item(name, sellIn, quality);
+        GildedRose app = new GildedRose(new Item[] { 
+        		product
+        });
+        app.updateQuality();
+        assertAll(name,
+        		() -> assertEquals(name, product.name, "name"),
+        		() -> assertEquals(sellInResult, product.sellIn, "sellIn"),
+        		() -> assertEquals(qualityResult, product.quality, "quality")
+        		);
+	}
+	
+	@ParameterizedTest(name = "Sulfuras {index}: ({0},{1}) => ({2},{3}")
+	@CsvSource({
+		"1, 0, 1, 0",
+		"0, 1, 0, 1",
+		"-1, 1, -1, 1",
+		})
+	void productSulfurasTest(int sellIn, int quality, int sellInResult, int qualityResult) {
+		String name = "Sulfuras, Hand of Ragnaros";
+		Item product = new Item(name, sellIn, quality);
+        GildedRose app = new GildedRose(new Item[] { 
+        		product
+        });
+        app.updateQuality();
+        assertAll(name,
+        		() -> assertEquals(name, product.name, "name"),
+        		() -> assertEquals(sellInResult, product.sellIn, "sellIn"),
+        		() -> assertEquals(qualityResult, product.quality, "quality")
+        		);
+	}
+	
+	@ParameterizedTest(name = "Backstage passes {index}: ({0},{1}) => ({2},{3}")
+	@CsvSource({
+		"11, 0, 10, 1",
+		"7, 1, 6, 3",
+		"7, 49, 6, 50",
+		"5, 3, 4, 6",
+		"0, 3, -1, 0",
+		"-1, 3, -2, 0",
+		})
+	void productBackstagePassesTest(int sellIn, int quality, int sellInResult, int qualityResult) {
+		String name = "Backstage passes to a TAFKAL80ETC concert";
+		Item product = new Item(name, sellIn, quality);
+        GildedRose app = new GildedRose(new Item[] { 
+        		product
+        });
+        app.updateQuality();
+        assertAll(name,
+        		() -> assertEquals(name, product.name, "name"),
+        		() -> assertEquals(sellInResult, product.sellIn, "sellIn"),
+        		() -> assertEquals(qualityResult, product.quality, "quality")
+        		);
+	}
+/*	
+	@ParameterizedTest(name = "Conjured {index}: ({0},{1}) => ({2},{3}")
+	@CsvSource({
+		"11, 10, 10, 8",
+		"7, 1, 6, 0",
+		"-5, 10, -6, 6",
+		"0, 3, -1, 0",
+		})
+	void productConjuredTest(int sellIn, int quality, int sellInResult, int qualityResult) {
+		String name = "Conjured Mana Cake";
+		Item product = new Item(name, sellIn, quality);
+        GildedRose app = new GildedRose(new Item[] { 
+        		product
+        });
+        app.updateQuality();
+        assertAll(name,
+        		() -> assertEquals(name, product.name, "name"),
+        		() -> assertEquals(sellInResult, product.sellIn, "sellIn"),
+        		() -> assertEquals(qualityResult, product.quality, "quality")
+        		);
+	}
+*/
 }
