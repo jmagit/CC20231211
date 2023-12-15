@@ -28,7 +28,7 @@ class Calculadora_Test {
 
 	@BeforeEach
 	void setUp() throws Exception {
-		calc = new Calculadora();
+		calc = new CalculadoraImpl();
 	}
 
 	@Nested
