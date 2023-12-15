@@ -71,14 +71,14 @@ class GildedRoseTest {
         		);
     }
 */    
-	@ParameterizedTest(name = "Producto normal {index}: ({0},{1}) => ({2},{3}")
+	@ParameterizedTest(name = "Producto normal {index}: ({0},{1}) => ({2},{3})")
 	@CsvSource({
 		"11, 10, 10, 9",
 		"7, 1, 6, 0",
-//		"5, -5, 4, 0",
+		"-1, 1, -2, 0",
 		"0, 3, -1, 1",
 		})
-	void normal(int sellIn, int quality, int sellInOut, int qualityOut) {
+	void productNormalTest(int sellIn, int quality, int sellInOut, int qualityOut) {
     	String producto = "Normal Product";
         Item[] items = new Item[] { new Item(producto, sellIn, quality) };
         GildedRose app = new GildedRose(items);
@@ -91,7 +91,7 @@ class GildedRoseTest {
         		);
     }
 	
-	@ParameterizedTest(name = "Aged Brie {index}: ({0},{1}) => ({2},{3}")
+	@ParameterizedTest(name = "Aged Brie {index}: ({0},{1}) => ({2},{3})")
 	@CsvSource({
 		"2, 0, 1, 1",
 		"-1, 48, -2, 50",
@@ -113,7 +113,7 @@ class GildedRoseTest {
         		);
 	}
 	
-	@ParameterizedTest(name = "Sulfuras {index}: ({0},{1}) => ({2},{3}")
+	@ParameterizedTest(name = "Sulfuras {index}: ({0},{1}) => ({2},{3})")
 	@CsvSource({
 		"1, 0, 1, 0",
 		"0, 1, 0, 1",
@@ -133,11 +133,12 @@ class GildedRoseTest {
         		);
 	}
 	
-	@ParameterizedTest(name = "Backstage passes {index}: ({0},{1}) => ({2},{3}")
+	@ParameterizedTest(name = "Backstage passes {index}: ({0},{1}) => ({2},{3})")
 	@CsvSource({
 		"11, 0, 10, 1",
 		"7, 1, 6, 3",
 		"7, 49, 6, 50",
+		"5, 49, 4, 50", // add
 		"5, 3, 4, 6",
 		"0, 3, -1, 0",
 		"-1, 3, -2, 0",
@@ -156,7 +157,7 @@ class GildedRoseTest {
         		);
 	}
 /*	
-	@ParameterizedTest(name = "Conjured {index}: ({0},{1}) => ({2},{3}")
+	@ParameterizedTest(name = "Conjured {index}: ({0},{1}) => ({2},{3})")
 	@CsvSource({
 		"11, 10, 10, 8",
 		"7, 1, 6, 0",
@@ -177,4 +178,78 @@ class GildedRoseTest {
         		);
 	}
 */
+    @Test
+    @DisplayName("Producto Conjured: con calidad y sin caducar")
+    void conjuredConCalidadSinCaducar() {
+    	String producto = "Conjured Mana Cake";
+        Item[] items = new Item[] { new Item(producto, 11, 10) };
+        GildedRose app = new GildedRose(items);
+        app.updateQuality();
+        assertEquals(1, items.length);
+        assertAll("Producto Actual", 
+        		() -> assertEquals(producto, app.items[0].name),
+        		() -> assertEquals(10, app.items[0].sellIn),
+        		() -> assertEquals(8, app.items[0].quality)
+        		);
+    }
+    
+    @Test
+    @DisplayName("Producto Conjured: con calidad y sin caducar (limite)")
+    void conjuredConCalidadSinCaducarLimite() {
+    	String producto = "Conjured Mana Cake";
+        Item[] items = new Item[] { new Item(producto, 11, 1) };
+        GildedRose app = new GildedRose(items);
+        app.updateQuality();
+        assertEquals(1, items.length);
+        assertAll("Producto Actual", 
+        		() -> assertEquals(producto, app.items[0].name),
+        		() -> assertEquals(10, app.items[0].sellIn),
+        		() -> assertEquals(0, app.items[0].quality)
+        		);
+    }
+    
+    @Test
+    @DisplayName("Producto Conjured: con calidad y caducado")
+    void conjuredConCalidadCaducado() {
+    	String producto = "Conjured Mana Cake";
+        Item[] items = new Item[] { new Item(producto, -1, 6) };
+        GildedRose app = new GildedRose(items);
+        app.updateQuality();
+        assertEquals(1, items.length);
+        assertAll("Producto Actual", 
+        		() -> assertEquals(producto, app.items[0].name),
+        		() -> assertEquals(-2, app.items[0].sellIn),
+        		() -> assertEquals(2, app.items[0].quality)
+        		);
+    }
+
+    @Test
+    @DisplayName("Producto Conjured: sin calidad y sin caducar")
+    void conjuredSinCalidadSinCaducar() {
+    	String producto = "Conjured Mana Cake";
+        Item[] items = new Item[] { new Item(producto, 2, 0) };
+        GildedRose app = new GildedRose(items);
+        app.updateQuality();
+        assertEquals(1, items.length);
+        assertAll("Producto Actual", 
+        		() -> assertEquals(producto, app.items[0].name),
+        		() -> assertEquals(1, app.items[0].sellIn),
+        		() -> assertEquals(0, app.items[0].quality)
+        		);
+    }
+    
+    @Test
+    @DisplayName("Producto Conjured: sin calidad y caducado")
+    void conjuredSinCalidadCaducado() {
+    	String producto = "Conjured Mana Cake";
+        Item[] items = new Item[] { new Item(producto, -3, 1) };
+        GildedRose app = new GildedRose(items);
+        app.updateQuality();
+        assertEquals(1, items.length);
+        assertAll("Producto Actual", 
+        		() -> assertEquals(producto, app.items[0].name),
+        		() -> assertEquals(-4, app.items[0].sellIn),
+        		() -> assertEquals(0, app.items[0].quality)
+        		);
+    }
 }
